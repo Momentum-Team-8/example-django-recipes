@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Q
+from django.db.models.constraints import UniqueConstraint
 from ordered_model.models import OrderedModel
 
 
@@ -31,21 +32,18 @@ class RecipeQuerySet(models.QuerySet):
 class Recipe(models.Model):
     objects = RecipeQuerySet.as_manager()
 
-    user = models.ForeignKey(to=User,
-                             on_delete=models.CASCADE,
-                             related_name="recipes")
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="recipes")
     title = models.CharField(max_length=255)
     prep_time_in_minutes = models.PositiveIntegerField(null=True, blank=True)
     cook_time_in_minutes = models.PositiveIntegerField(null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name="recipes", blank=True)
-    original_recipe = models.ForeignKey(to="self",
-                                        on_delete=models.SET_NULL,
-                                        null=True,
-                                        blank=True)
+    original_recipe = models.ForeignKey(
+        to="self", on_delete=models.SET_NULL, null=True, blank=True
+    )
     public = models.BooleanField(default=True)
-    favorited_by = models.ManyToManyField(to=User,
-                                          related_name="favorite_recipes",
-                                          blank=True)
+    favorited_by = models.ManyToManyField(
+        to=User, related_name="favorite_recipes", blank=True
+    )
 
     def get_tag_names(self):
         tag_names = []
@@ -88,9 +86,9 @@ class Recipe(models.Model):
 
 
 class Ingredient(models.Model):
-    recipe = models.ForeignKey(to=Recipe,
-                               on_delete=models.CASCADE,
-                               related_name="ingredients")
+    recipe = models.ForeignKey(
+        to=Recipe, on_delete=models.CASCADE, related_name="ingredients"
+    )
     amount = models.CharField(max_length=20)
     item = models.CharField(max_length=255)
 
@@ -99,9 +97,9 @@ class Ingredient(models.Model):
 
 
 class RecipeStep(OrderedModel):
-    recipe = models.ForeignKey(to=Recipe,
-                               on_delete=models.CASCADE,
-                               related_name="steps")
+    recipe = models.ForeignKey(
+        to=Recipe, on_delete=models.CASCADE, related_name="steps"
+    )
     text = models.TextField()
     order_with_respect_to = "recipe"
 
@@ -110,14 +108,13 @@ class RecipeStep(OrderedModel):
 
 
 class MealPlan(models.Model):
-    user = models.ForeignKey(to=User,
-                             on_delete=models.CASCADE,
-                             related_name="meal_plans")
+    user = models.ForeignKey(
+        to=User, on_delete=models.CASCADE, related_name="meal_plans"
+    )
     date = models.DateField(verbose_name="Date for plan")
     recipes = models.ManyToManyField(to=Recipe, related_name="meal_plans")
 
     class Meta:
-        unique_together = [
-            "user",
-            "date",
+        constraints = [
+            UniqueConstraint(fields=["user", "date"], name="unique_mealplan")
         ]
