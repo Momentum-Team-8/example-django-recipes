@@ -27,17 +27,17 @@ urlpatterns = [
         recipes_views.recipe_detail,
         name="recipe_detail",
     ),
-    path("recipes/<int:recipe_pk>/edit/",
-         recipes_views.edit_recipe,
-         name="edit_recipe"),
+    path(
+        "recipes/<int:recipe_pk>/edit/", recipes_views.edit_recipe, name="edit_recipe"
+    ),
     path(
         "recipes/<int:recipe_pk>/delete/",
         recipes_views.delete_recipe,
         name="delete_recipe",
     ),
-    path("recipes/<int:recipe_pk>/copy/",
-         recipes_views.copy_recipe,
-         name="copy_recipe"),
+    path(
+        "recipes/<int:recipe_pk>/copy/", recipes_views.copy_recipe, name="copy_recipe"
+    ),
     path(
         "recipes/<int:recipe_pk>/favorite/",
         recipes_views.toggle_favorite_recipe,
@@ -54,9 +54,7 @@ urlpatterns = [
         recipes_views.add_recipe_step,
         name="add_recipe_step",
     ),
-    path("recipes/random/",
-         recipes_views.show_random_recipe,
-         name="random_recipe"),
+    path("recipes/random/", recipes_views.show_random_recipe, name="random_recipe"),
     path("mealplan/", recipes_views.show_meal_plan, name="todays_meal_plan"),
     path(
         "mealplan/<int:year>/<int:month>/<int:day>/",

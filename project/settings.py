@@ -47,12 +47,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "django.contrib.postgres",
-
     # Third-party
     "debug_toolbar",
     "django_extensions",
     "ordered_model",
-
     # Project-specific
     "recipes",
 ]
@@ -98,20 +96,16 @@ DATABASES = {"default": env.db()}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME":
-        "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        "NAME":
-        "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        "NAME":
-        "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        "NAME":
-        "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -152,7 +146,7 @@ INTERNAL_IPS = [
 
 ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = "/"
-REGISTRATION_FORM = 'recipes.forms.CustomRegistrationForm'
+REGISTRATION_FORM = "recipes.forms.CustomRegistrationForm"
 
 # Email settings
 

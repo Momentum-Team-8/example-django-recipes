@@ -8,31 +8,35 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('recipes', '0009_auto_20200728_1841'),
+        ("recipes", "0009_auto_20200728_1841"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='recipe',
-            name='photo_height',
+            model_name="recipe",
+            name="photo_height",
         ),
         migrations.RemoveField(
-            model_name='recipe',
-            name='photo_width',
+            model_name="recipe",
+            name="photo_width",
         ),
         migrations.AlterField(
-            model_name='recipe',
-            name='favorited_by',
-            field=models.ManyToManyField(blank=True, related_name='favorite_recipes', to=settings.AUTH_USER_MODEL),
+            model_name="recipe",
+            name="favorited_by",
+            field=models.ManyToManyField(
+                blank=True, related_name="favorite_recipes", to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AlterField(
-            model_name='recipe',
-            name='photo',
-            field=models.ImageField(blank=True, null=True, upload_to='recipe_photos/'),
+            model_name="recipe",
+            name="photo",
+            field=models.ImageField(blank=True, null=True, upload_to="recipe_photos/"),
         ),
         migrations.AlterField(
-            model_name='recipe',
-            name='tags',
-            field=models.ManyToManyField(blank=True, related_name='recipes', to='recipes.Tag'),
+            model_name="recipe",
+            name="tags",
+            field=models.ManyToManyField(
+                blank=True, related_name="recipes", to="recipes.Tag"
+            ),
         ),
     ]

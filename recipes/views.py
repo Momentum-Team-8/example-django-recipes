@@ -24,12 +24,15 @@ def homepage(request):
 
 def recipe_list(request):
     order_field = request.GET.get("order", "title")
-    recipes = (Recipe.objects.for_user(request.user).annotate(
-        times_favorited=Count("favorited_by", distinct=True),
-        times_cooked=Count("meal_plans", distinct=True),
-        total_time_in_minutes=F("prep_time_in_minutes") +
-        F("cook_time_in_minutes"),
-    ).order_by(order_field))
+    recipes = (
+        Recipe.objects.for_user(request.user)
+        .annotate(
+            times_favorited=Count("favorited_by", distinct=True),
+            times_cooked=Count("meal_plans", distinct=True),
+            total_time_in_minutes=F("prep_time_in_minutes") + F("cook_time_in_minutes"),
+        )
+        .order_by(order_field)
+    )
 
     if request.is_ajax():
         template_name = "recipes/_recipe_list.html"
@@ -54,7 +57,7 @@ def recipe_detail(request, recipe_pk):
             "recipe": recipe,
             "is_user_favorite": request.user.is_favorite_recipe(recipe),
             "ingredient_form": IngredientForm(),
-            "step_form": RecipeStepForm()
+            "step_form": RecipeStepForm(),
         },
     )
 
@@ -85,16 +88,15 @@ def edit_recipe(request, recipe_pk):
     recipe = get_object_or_404(request.user.recipes, pk=recipe_pk)
 
     if request.method == "POST":
-        form = RecipeForm(instance=recipe,
-                          data=request.POST,
-                          files=request.FILES)
+        form = RecipeForm(instance=recipe, data=request.POST, files=request.FILES)
         if form.is_valid():
             recipe = form.save()
             recipe.set_tag_names(form.cleaned_data["tag_names"])
             return redirect(to="recipe_detail", recipe_pk=recipe.pk)
     else:
-        form = RecipeForm(instance=recipe,
-                          initial={"tag_names": recipe.get_tag_names()})
+        form = RecipeForm(
+            instance=recipe, initial={"tag_names": recipe.get_tag_names()}
+        )
 
     return render(
         request,
@@ -121,8 +123,7 @@ def delete_recipe(request, recipe_pk):
 @csrf_exempt
 @require_POST
 def toggle_favorite_recipe(request, recipe_pk):
-    recipe = get_object_or_404(Recipe.objects.for_user(request.user),
-                               pk=recipe_pk)
+    recipe = get_object_or_404(Recipe.objects.for_user(request.user), pk=recipe_pk)
 
     if recipe in request.user.favorite_recipes.all():
         request.user.favorite_recipes.remove(recipe)
@@ -146,10 +147,9 @@ def add_ingredient(request, recipe_pk):
     else:  # viewing page for first time
         form = IngredientForm()
 
-    return render(request, "recipes/add_ingredient.html", {
-        "form": form,
-        "recipe": recipe
-    })
+    return render(
+        request, "recipes/add_ingredient.html", {"form": form, "recipe": recipe}
+    )
 
 
 @login_required
@@ -166,10 +166,9 @@ def add_recipe_step(request, recipe_pk):
     else:
         form = RecipeStepForm()
 
-    return render(request, "recipes/add_recipe_step.html", {
-        "form": form,
-        "recipe": recipe
-    })
+    return render(
+        request, "recipes/add_recipe_step.html", {"form": form, "recipe": recipe}
+    )
 
 
 def view_tag(request, tag_name):
@@ -181,10 +180,7 @@ def view_tag(request, tag_name):
 
     recipes = tag.recipes.for_user(request.user).order_by("title")
 
-    return render(request, "recipes/tag_detail.html", {
-        "tag": tag,
-        "recipes": recipes
-    })
+    return render(request, "recipes/tag_detail.html", {"tag": tag, "recipes": recipes})
 
 
 @login_required
@@ -205,8 +201,9 @@ def show_meal_plan(request, year=None, month=None, day=None):
 
     # https://docs.djangoproject.com/en/3.0/ref/models/querysets/#get-or-create
     meal_plan, _ = request.user.meal_plans.get_or_create(date=date_for_plan)
-    recipes = Recipe.objects.for_user(
-        request.user).exclude(pk__in=[r.pk for r in meal_plan.recipes.all()])
+    recipes = Recipe.objects.for_user(request.user).exclude(
+        pk__in=[r.pk for r in meal_plan.recipes.all()]
+    )
 
     return render(
         request,
@@ -273,8 +270,7 @@ def copy_recipe(request, recipe_pk):
     cloned_recipe.save()
 
     for ingredient in original_recipe.ingredients.all():
-        cloned_recipe.ingredients.create(amount=ingredient.amount,
-                                         item=ingredient.item)
+        cloned_recipe.ingredients.create(amount=ingredient.amount, item=ingredient.item)
 
     for recipe_step in original_recipe.steps.all():
         cloned_recipe.steps.create(text=recipe_step.text)

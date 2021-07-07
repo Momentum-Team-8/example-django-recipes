@@ -10,34 +10,32 @@ TEXT_INPUT_CLASSES = "pa2 f4 w-100"
 class CustomRegistrationForm(RegistrationForm):
     email = forms.EmailField(
         label="E-mail address",
-        widget=forms.EmailInput(attrs={"class": TEXT_INPUT_CLASSES}))
+        widget=forms.EmailInput(attrs={"class": TEXT_INPUT_CLASSES}),
+    )
     password1 = forms.CharField(
         label="Password",
         strip=False,
-        widget=forms.PasswordInput(attrs={
-            'autocomplete': 'new-password',
-            "class": TEXT_INPUT_CLASSES
-        }),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "new-password", "class": TEXT_INPUT_CLASSES}
+        ),
         help_text=password_validation.password_validators_help_text_html(),
     )
     password2 = forms.CharField(
         label="Password confirmation",
-        widget=forms.PasswordInput(attrs={
-            'autocomplete': 'new-password',
-            "class": TEXT_INPUT_CLASSES
-        }),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "new-password", "class": TEXT_INPUT_CLASSES}
+        ),
         strip=False,
         help_text="Enter the same password as before, for verification.",
     )
 
     class Meta(RegistrationForm.Meta):
         widgets = {
-            'username':
-            forms.TextInput(attrs={"class": TEXT_INPUT_CLASSES}),
-            'password':
-            forms.PasswordInput(attrs={"class": TEXT_INPUT_CLASSES}),
-            'password_confirmation':
-            forms.PasswordInput(attrs={"class": TEXT_INPUT_CLASSES}),
+            "username": forms.TextInput(attrs={"class": TEXT_INPUT_CLASSES}),
+            "password": forms.PasswordInput(attrs={"class": TEXT_INPUT_CLASSES}),
+            "password_confirmation": forms.PasswordInput(
+                attrs={"class": TEXT_INPUT_CLASSES}
+            ),
         }
 
 
@@ -58,12 +56,13 @@ class RecipeForm(forms.ModelForm):
             "public",
         ]
         widgets = {
-            "title":
-            forms.TextInput(attrs={"class": TEXT_INPUT_CLASSES}),
-            "prep_time_in_minutes":
-            forms.NumberInput(attrs={"class": TEXT_INPUT_CLASSES}),
-            "cook_time_in_minutes":
-            forms.NumberInput(attrs={"class": TEXT_INPUT_CLASSES}),
+            "title": forms.TextInput(attrs={"class": TEXT_INPUT_CLASSES}),
+            "prep_time_in_minutes": forms.NumberInput(
+                attrs={"class": TEXT_INPUT_CLASSES}
+            ),
+            "cook_time_in_minutes": forms.NumberInput(
+                attrs={"class": TEXT_INPUT_CLASSES}
+            ),
         }
 
 
