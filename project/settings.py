@@ -159,3 +159,10 @@ if env("USE_EMAIL"):
     EMAIL_HOST_USER = env("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
     EMAIL_USE_TLS = env("EMAIL_USE_TLS")
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+import django_on_heroku
+
+django_on_heroku.settings(locals())
+del DATABASES["default"]["OPTIONS"]["sslmode"]
