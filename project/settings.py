@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "django_extensions",
     "ordered_model",
+    "rest_framework",
     # Project-specific
     "recipes",
 ]
@@ -166,3 +167,9 @@ import django_on_heroku
 
 django_on_heroku.settings(locals())
 del DATABASES["default"]["OPTIONS"]["sslmode"]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+    ]
+}

@@ -15,6 +15,9 @@ faker = "*"
 psycopg2-binary = "*"
 django-on-heroku = "*"
 gunicorn = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.8"
