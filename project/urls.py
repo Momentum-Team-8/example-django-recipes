@@ -67,6 +67,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("registration.backends.default.urls")),
     path("api-auth/", include("rest_framework.urls")),
+    # I can see this 👇 in the browsable api by going to http://127.0.0.1:8000/api/recipes
     path("api/recipes", api_views.RecipeListView.as_view(), name="api_recipe_list"),
 ]
 
