@@ -11,3 +11,10 @@ This project was generated from the Momentum Django project template. This templ
 - There is a `templates/` and a `static/` directory at the top level, both of which are set up to be used.
 - A `.gitignore` file is provided.
 - [Pipenv](https://pipenv.pypa.io/en/latest/) is used to manage dependencies.
+
+
+## Django REST Framework
+
+### How to make a request to `POST api/recipes` in Insomnia
+
+![Screencast of making a POST request to the API](POST.gif)
